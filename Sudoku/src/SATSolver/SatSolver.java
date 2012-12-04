@@ -40,7 +40,7 @@ public class SatSolver {
 	public int[] solve(StringBuffer formulaString) {
         readFormula(formulaString);
 
-        if (dp()) {
+        if (DPLL()) {
             success();
             return formula.getCurrentAssigment();
 
@@ -56,7 +56,7 @@ public class SatSolver {
      * @return - True if a formula is empty (satisfiable)
      * 		   - False if a formula has an empty clause.
      */
-	public boolean dp() {
+	public boolean DPLL() {
 
         //If the formula is empty, no more clauses need to be satisfied
         if (isEmpty()) {
@@ -75,7 +75,7 @@ public class SatSolver {
             //unitProp will give the assignment.
             setVar(var);
 
-            if (dp()) {
+            if (DPLL()) {
                 return true;
 
             } else {
@@ -87,7 +87,7 @@ public class SatSolver {
                 // Try reversing the assignment
                 setVar(-var);
 
-                if (dp()) {
+                if (DPLL()) {
                     return true;
                 } else {
                     unset();
