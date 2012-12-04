@@ -3,7 +3,7 @@ package Sudoku;
 import java.io.IOException;
 
 import FileIO.ReadInFile;
-import SATSolver.Formula;
+import FileIO.WriteOutFile;
 import SATSolver.SatSolver;
 
 public class Sudoku {
@@ -24,24 +24,66 @@ public class Sudoku {
 				}
 				System.out.println();
 			}
-			String tmpLine = "1 2 2 0";
-			String[] parse = tmpLine.trim().split("\\s+");
-			for(String s : parse){
-				System.out.print(s + "+");
-			}
-			MapperDefault se= new MapperDefault();	
+
+			
+			SATEncode se= new SATEncode();	
 			String out = se.out.toString();
 			StringBuffer combinedConstaint = new StringBuffer();
 			StringBuffer s = mapper(in);
 			combinedConstaint.append("p cnf 999 " +totalClauseCount+ "\n");
 			combinedConstaint.append(mapper(in).append(se.out));
 			System.out.println("##########-------------##############");
-			System.out.println(combinedConstaint.toString().substring(0,1000));
+			//System.out.println(combinedConstaint.toString().substring(0,1000));
 			System.out.println("##########-------------##############");
 
 			SatSolver ss = new SatSolver();
 			//ss.readFormula(combinedConstaint);
-			ss.solve(combinedConstaint);
+			int[] array = ss.solve(combinedConstaint);
+			int[][] result = new int[SQUARE_SIZE][SQUARE_SIZE];
+			
+			WriteOutFile wf = WriteOutFile.getInstance();
+			result = wf.parseResult(array, SQUARE_SIZE);
+			for(int i = 0; i < SQUARE_SIZE; i++){
+				if(i == 0){
+					for(int d = 0; d < SQUARE_SIZE; d++){
+						if((d+1)%3==0){
+							System.out.print("=====");							
+						}else{
+							System.out.print("====");
+						}
+					}
+					System.out.println();
+				}
+				for(int j = 0; j < SQUARE_SIZE; j ++){
+					if(j == 0){
+						System.out.print("[ ");
+					}
+					if((j+1)%3==0 && j != 8){
+						System.out.print(result[i][j] + " ][ ");
+					}else if(j == 8){
+						System.out.print(result[i][j] + " ] ");
+					}else{
+						System.out.print(result[i][j] + " | ");
+					}
+				}
+				System.out.println();
+				for(int d = 0; d < SQUARE_SIZE; d++){
+					if((i+1)%3==0){
+						if((d+1)%3==0){
+							System.out.print("=====");							
+						}else{
+							System.out.print("====");
+						}
+					}else{
+						if((d+1)%3==0){
+							System.out.print("-----");							
+						}else{
+							System.out.print("----");
+						}
+					}
+				}
+				System.out.println();
+			}
 		}catch(IOException e){
 			e.printStackTrace();
 		}	
