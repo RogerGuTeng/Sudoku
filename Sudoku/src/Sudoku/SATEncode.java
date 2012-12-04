@@ -3,9 +3,14 @@ import java.io.IOException;
 public class SATEncode {
 	private final int NUM_VARS =9;
 	private final int SQUARE_SIZE =9;
-	private StringBuffer out;
-	public SATEncode(StringBuffer out){
-		this.out= out;
+	public StringBuffer out = new StringBuffer();
+	public SATEncode(){
+		try{
+			this.GenerateClauses();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+
 	}
 	//check that each number must occur at least once in the row
 	private void row_least_once() throws IOException{
@@ -146,8 +151,9 @@ public class SATEncode {
 	        unit_only_once();
 	 }
 	 
+	 
 	 //for testing
-	/* public static void main(String[] args){
+	 /*public static void main(String[] args){
 		 try{
 		 StringBuffer out= new StringBuffer();
 		 SATEncode se= new SATEncode(out);		 
