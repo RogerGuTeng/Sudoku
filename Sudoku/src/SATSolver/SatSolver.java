@@ -25,7 +25,7 @@ public class SatSolver {
     }
 
 	public void unset() {
-        formula.undoProp();
+        formula.undoPropegate();
     }
 
 	public void success() {
