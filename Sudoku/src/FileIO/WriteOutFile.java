@@ -15,6 +15,9 @@ public class WriteOutFile {
 		this.result = new int[length][length];
 		int row = 0;
 		int col = 0;
+		if(result == null){
+			return null;
+		}
 		for(int i = 111; i < 1000; i ++){
 			if(result[i] == 1){
 				this.result[row][col] = i%10;
